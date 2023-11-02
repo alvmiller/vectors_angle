@@ -89,7 +89,7 @@ int get_angle_between_vector00s(
         *res = 0.0;
         return 0;
     }
-    /* @TODO: Check that both vectors are in the same line*/
+    /** @TODO: Check that both vectors are in the same line */
 
     cross_product = calculate_cross_product(v1, v2);
     dot_product = calculate_dot_product(v1, v2);
