@@ -9,7 +9,11 @@
     ({ typeof(((vector00 *)NULL)->x) _x; \
        typeof(((vector00 *)NULL)->y) _y; \
        int _i; \
-       (void)(&_i == &_y); \
+       _Static_assert(sizeof(_i) == sizeof(_x), "Bad size of object"); \
+       _Static_assert(sizeof(_i) == sizeof(_y), "Bad size of object"); \
+       assert(sizeof(_i) == sizeof(_x)); \
+       assert(sizeof(_i) == sizeof(_y)); \
+       (void)(&_i == &_x); \
        (void)(&_i == &_y); \
     })
 
