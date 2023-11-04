@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <math.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -5,16 +6,13 @@
 
 #include "vector00s_angle.h"
 
-#define CHECK_VECTOR00_COORDINATES_TYPES_WARN() \
-    ({ typeof(((vector00 *)NULL)->x) _x; \
-       typeof(((vector00 *)NULL)->y) _y; \
-       int _i; \
-       _Static_assert(sizeof(_i) == sizeof(_x), "Bad size of object"); \
-       _Static_assert(sizeof(_i) == sizeof(_y), "Bad size of object"); \
-       assert(sizeof(_i) == sizeof(_x)); \
-       assert(sizeof(_i) == sizeof(_y)); \
-       (void)(&_i == &_x); \
-       (void)(&_i == &_y); \
+#define IS_INT_TYPE(x) _Generic((x), int: true, default: false)
+#define CHECK_VECTOR00_COORDINATES_TYPE() \
+    ({ \
+        typeof(((vector00 *)NULL)->x) _x; \
+        typeof(((vector00 *)NULL)->y) _y; \
+        _Static_assert(IS_INT_TYPE(_x), "Bad type of object (field x)"); \
+        _Static_assert(IS_INT_TYPE(_y), "Bad type of object (field y)"); \
     })
 
 static inline double convert_angle_radians_to_degrees(double radians)
@@ -76,11 +74,11 @@ int get_angle_between_vector00s(
     angle_type type,
     double *res)
 {
-    CHECK_VECTOR00_COORDINATES_TYPES_WARN();
-
     double angle = 0.0;
     int cross_product = 0;
     int dot_product = 0;
+
+    CHECK_VECTOR00_COORDINATES_TYPE();
 
     if (v1 == NULL
      || v2 == NULL
