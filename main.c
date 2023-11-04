@@ -5,11 +5,10 @@
 
 #include "vector00s_angle.h"
 
-const double epsilon = 0.0001;
-
 int main()
 {
     int res = -1;
+    const double epsilon = 0.0001;
     double angle = 0.0;
     vector00 va = { .x = 0, .y = 2 };
     vector00 vb = { .x = 2, .y = 0 };
