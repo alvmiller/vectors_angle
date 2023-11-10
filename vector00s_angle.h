@@ -21,8 +21,6 @@
    reset; gcc -Werror vector00s_angle.c main.c -lm -o main; ./main
  */
 
-/* @TODO: Check that both vectors are in the same line */
-
 typedef enum angle_type_t {
   ANGLE_RADIANS_TYPE,
   ANGLE_DEGREES_TYPE
@@ -36,8 +34,8 @@ typedef struct vector00_t {
 
 /* Currently, each vector should be started from (0,0) */
 int get_angle_between_vector00s(
-    const vector00* v1,
-    const vector00* v2,
+    const vector00* restrict v1,
+    const vector00* restrict v2,
     angle_type type,
     double *res);
 
