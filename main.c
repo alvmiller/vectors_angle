@@ -10,8 +10,8 @@ int main()
     int res = -1;
     const double epsilon = 0.0001;
     double angle = 0.0;
-    vector00 va = { .x = 0, .y = 2 };
-    vector00 vb = { .x = 2, .y = 0 };
+    const vector00 va = { .x = 0, .y = 2 };
+    const vector00 vb = { .x = 2, .y = 0 };
     angle_type type = ANGLE_DEGREES_TYPE;
 
     res = get_angle_between_vector00s(&va, &vb, ANGLE_DEGREES_TYPE, &angle);
