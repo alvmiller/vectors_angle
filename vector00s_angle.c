@@ -6,6 +6,8 @@
 
 #include "vector00s_angle.h"
 
+#define OVERFLOW_ERROR_CODE (-2)
+
 #define IS_INT_TYPE(x) _Generic((x), int: true, default: false)
 #define CHECK_VECTOR00_COORDINATES_TYPE() \
     ({ \
@@ -25,7 +27,7 @@ static inline double calculate_angle_in_radians(int cross_product, int dot_produ
     return atan2(cross_product, dot_product);
 }
 
-static inline int calculate_cross_product(const vector00* v1, const vector00* v2)
+static inline int calculate_cross_product(const vector00* restrict v1, const vector00* restrict v2)
 {
     int cross_product = 0;
     int tmp1 = 0;
@@ -35,13 +37,13 @@ static inline int calculate_cross_product(const vector00* v1, const vector00* v2
     if (__builtin_mul_overflow(v1->x, v2->y, &tmp1)
      || __builtin_mul_overflow(v1->y, v2->x, &tmp2)
      || __builtin_sub_overflow(tmp1, tmp2, &cross_product)) {
-        exit(-2);
+        exit(OVERFLOW_ERROR_CODE);
     }
 
     return cross_product;
 }
 
-static inline int calculate_dot_product(const vector00* v1, const vector00* v2)
+static inline int calculate_dot_product(const vector00* restrict v1, const vector00* restrict v2)
 {
     int dot_product = 0;
     int tmp1 = 0;
@@ -51,13 +53,13 @@ static inline int calculate_dot_product(const vector00* v1, const vector00* v2)
     if (__builtin_mul_overflow(v1->x, v2->x, &tmp1)
      || __builtin_mul_overflow(v1->y, v2->y, &tmp2)
      || __builtin_add_overflow(tmp1, tmp2, &dot_product)) {
-        exit(-2);
+        exit(OVERFLOW_ERROR_CODE);
     }
 
     return dot_product;
 }
 
-static inline bool is_equal(const vector00* v1, const vector00* v2)
+static inline bool is_equal(const vector00* restrict v1, const vector00* restrict v2)
 {
     if (v1 == v2) {
         return true;
@@ -69,8 +71,8 @@ static inline bool is_equal(const vector00* v1, const vector00* v2)
 }
 
 int get_angle_between_vector00s(
-    const vector00* v1,
-    const vector00* v2,
+    const vector00* restrict v1,
+    const vector00* restrict v2,
     angle_type type,
     double *res)
 {
